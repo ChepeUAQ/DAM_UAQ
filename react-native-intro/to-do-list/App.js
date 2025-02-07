@@ -1,7 +1,28 @@
+import { useState } from 'react';
 import { CheckBox } from '@rneui/themed';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 export default function App() {
+  const [checked, setChecked] = useState({
+    checked1: false,
+    checked2: false,
+    checked3: false,
+    checked4: false
+  });
+
+  const to_dos = [
+    {id:'ch1', title: 'Leche'}, 
+    {id:'ch2', title: 'Huevos'},
+    {id:'ch3', title: 'Jamón'},
+    {id:'ch4', title: 'Pan'}];
+
+  const checkedHandler = (item_id) => {
+    setChecked((prevState) => ({
+      ...prevState,
+      [item_id]: !prevState[item_id]
+    }));
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.main_navbar_view}>
@@ -13,18 +34,13 @@ export default function App() {
           <Text style={styles.title_text}>Lista de Compras</Text>
         </View>
         <ScrollView style={styles.content_view}>
-          <CheckBox title="Leche" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Pan" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Huevo" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Jamon" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Queso" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Cereal" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Frutas" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Verduras" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Carne" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Pollo" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Aceite" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
-          <CheckBox title="Frijoles" textStyle={{fontSize: 25}} containerStyle={styles.checkbox}/>
+          <View>
+            {
+              to_dos.map(to_do => (
+                <CheckBox key={to_do.id} title={to_do.title} textStyle={{fontSize: 25}} containerStyle={styles.checkbox} onPress={() => checkedHandler(to_do.id)} checked={checked[to_do.id]} />
+              ))
+            }
+          </View>
         </ScrollView>
       </View>
     </View>
