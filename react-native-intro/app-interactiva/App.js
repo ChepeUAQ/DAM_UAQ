@@ -93,13 +93,13 @@ export default function App() {
 }
 
 const Favoritas = ({rutasFav, rutas}) => {
-  const selectedRoutes = rutas.filter(ruta => rutasFav[ruta.id]);
+  const rutasSelec = rutas.filter(ruta => rutasFav[ruta.id]);
 
   return (
     <View style={styles.checked_routes_view}>
       <Text style={styles.favoritas_text}>Favoritas</Text>
-      {selectedRoutes.length > 0 ? (
-        selectedRoutes.map(ruta => (
+      {rutasSelec.length > 0 ? (
+        rutasSelec.map(ruta => (
           <View style={{flexDirection: 'row', marginBottom: 25}}>
             <Text key={ruta.id} style={{fontWeight: 'bold', marginRight: 15}}>{ruta.title}</Text>
             <Text>{ruta.desc}</Text>
