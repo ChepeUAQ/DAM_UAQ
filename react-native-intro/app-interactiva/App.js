@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { SearchBar, CheckBox } from '@rneui/themed';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, useColorScheme, TouchableOpacity } from 'react-native';
 import { CardTitle } from '@rneui/base/dist/Card/Card.Title';
 
 export default function App() {
 
+  const systemTheme = useColorScheme();
+  const [theme, setTheme] = useState(systemTheme || 'light'); 
+  
   const rutas = [
     {id:'R1', title:'T01', desc: 'TERMINAL BALVANERA - LOS HÉROES'},
     {id:'R2', title:'T02', desc: 'LA PRADERA - SAN JOSÉ DE LOS OLVERA'},
@@ -47,25 +50,32 @@ export default function App() {
     }));
   };
 
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.navbar_view}>
-        <Text style={styles.navbar_text}>Qrobus</Text>    
+      <View style={theme === 'dark' ? dark_styles.navbar_view : styles.navbar_view}>
+        <Text style={theme === 'dark' ? dark_styles.navbar_text : styles.navbar_text}>Qrobus</Text>   
+        <TouchableOpacity style={styles.navbar_touchable}>
+          <Text style={theme === 'dark' ? dark_styles.navbar_touchable_text : styles.navbar_touchable_text} onPress={toggleTheme}>🌗</Text>
+        </TouchableOpacity> 
       </View>
 
       <SearchBar placeholder="Ruta..."
-        lightTheme={true}
+        lightTheme={theme === 'dark' ? false : true}
         round={true}
         onChangeText={updateSearch}
         value={search}
-        inputStyle={{color: 'black'}}
+        inputStyle={{color: theme === 'dark' ? '#fff' : '#000'}}
       />
 
       {
-        isAnyChecked ? <Favoritas rutasFav={checked} rutas={rutas}/> : null
+        isAnyChecked ? <Favoritas rutasFav={checked} rutas={rutas} theme={theme}/> : null
       }
 
-      <ScrollView style={styles.rutas_view}>
+      <ScrollView style={theme === 'dark' ? dark_styles.rutas_view : styles.rutas_view}>
         {
           rutas
           .filter(item => 
@@ -74,13 +84,17 @@ export default function App() {
             <View style={styles.ruta_view}>
 
               <CheckBox
+                checkedIcon='bookmark'
+                uncheckedIcon='bookmark-o'
                 key={item.id}
                 title={item.title}
                 onPress={() => checkedHandler(item.id)}
                 checked={!!checked[item.id]}
+                containerStyle={{maxWidth: '25%', backgroundColor: theme === 'dark' ? '#000' : '#fff'}}
+                textStyle={{color: theme === 'dark' ? '#fff' : '#000'}}
               />
 
-              <Text style={{maxWidth: '70%', paddingTop: '18'}}>{item.desc}</Text>
+              <Text style={theme === 'dark' ? dark_styles.desc_text : styles.desc_text}>{item.desc}</Text>
             </View>
           ))
         }
@@ -92,17 +106,17 @@ export default function App() {
 
 }
 
-const Favoritas = ({rutasFav, rutas}) => {
+const Favoritas = ({rutasFav, rutas, theme}) => {
   const rutasSelec = rutas.filter(ruta => rutasFav[ruta.id]);
 
   return (
-    <View style={styles.checked_routes_view}>
-      <Text style={styles.favoritas_text}>Favoritas</Text>
+    <View style={theme === 'dark' ? dark_styles.checked_routes_view : styles.checked_routes_view}>
+      <Text style={theme === 'dark' ? dark_styles.favoritas_text : styles.favoritas_text}>Favoritas</Text>
       {rutasSelec.length > 0 ? (
         rutasSelec.map(ruta => (
           <View style={{flexDirection: 'row', marginBottom: 25}}>
-            <Text key={ruta.id} style={{fontWeight: 'bold', marginRight: 15}}>{ruta.title}</Text>
-            <Text>{ruta.desc}</Text>
+            <Text key={ruta.id} style={{fontWeight: 'bold', marginRight: 15, color: theme === 'dark' ? '#fff' : '#000'}}>{ruta.title}</Text>
+            <Text style={{flexShrink: 1 , color: theme === 'dark' ? '#fff' : '#000'}}>{ruta.desc}</Text>
           </View>
         ))
       ) : (
@@ -116,23 +130,29 @@ const Favoritas = ({rutasFav, rutas}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     maxWidth: '100%'
   },
   navbar_view: {
     backgroundColor: '#f8f8f8',
     height: '10%',
-    width: '100%',
+    maxWidth: '100%',
     marginTop: 0,
-    textAlign: 'justify',
-    justifyContent: 'center',
+    flexDirection: 'row'
   },
   navbar_text: {
     color: '#000',
     fontSize: 25,
     fontWeight: 'bold',
     marginStart: 20,
-    marginTop: 20
+    marginTop: 35
+  },
+  navbar_touchable: {
+    marginStart: '60%',
+    marginTop: 40
+  },
+  navbar_touchable_text: {
+    fontSize: 28,
+    fontWeight: 'bold',
   },
   rutas_view: {
     padding: 20,
@@ -141,18 +161,84 @@ const styles = StyleSheet.create({
   ruta_view: {
     flexDirection: 'row',
     marginBottom: 20,
-    marginLeft: -10
+    marginLeft: -10,
+    maxWidth: '100%'
   },
   checked_routes_view: {
     borderBottomColor: '#000',
     borderBottomWidth: 1,
     paddingHorizontal: 25,
-    paddingTop: 20
+    paddingTop: 20,
+    maxWidth: '100%'
   },
   favoritas_text: {
     marginTop: 10,
     marginBottom: 10,
     fontSize: 18, 
     fontWeight: 'bold'
+  },
+  desc_text: {
+    flexShrink: 1, 
+    paddingTop: '18',
+    marginLeft: -10
+  }
+});
+
+const dark_styles = StyleSheet.create({
+  navbar_view: {
+    backgroundColor: '#000',
+    height: '10%',
+    maxWidth: '100%',
+    marginTop: 0,
+    flexDirection: 'row'
+  },
+  navbar_text: {
+    color: '#fff',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginStart: 20,
+    marginTop: 35
+  },
+  navbar_touchable: {
+    marginStart: '60%',
+    marginTop: 40
+  },
+  navbar_touchable_text: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff'
+  },
+  rutas_view: {
+    padding: 20,
+    maxWidth: '100%',
+    backgroundColor: '#000'
+  },
+  ruta_view: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    marginLeft: -10,
+    maxWidth: '100%',
+    backgroundColor: '#000'
+  },
+  checked_routes_view: {
+    borderBottomColor: '#aaa',
+    borderBottomWidth: 1,
+    paddingHorizontal: 25,
+    paddingTop: 20,
+    maxWidth: '100%',
+    backgroundColor: '#000'
+  },
+  favoritas_text: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 18, 
+    fontWeight: 'bold',
+    color: '#fff'
+  },
+  desc_text: {
+    flexShrink: 1, 
+    paddingTop: '18',
+    marginLeft: -10,
+    color: '#fff'
   }
 });
