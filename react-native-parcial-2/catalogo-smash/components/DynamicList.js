@@ -15,13 +15,12 @@ export default function DynamicList() {
                     <View style={styles.data_view}>
                         <Image style={styles.char_icon} source={{uri: item.icon}}/>
                         <View style={[{backgroundColor: item.predominantColor}, styles.char_info]}>
-                            <View style={styles.char_name_view}>
-                                <Text style={styles.char_name_text}>{item.charName}</Text>
-                            </View>
+                            
+                            <Text style={styles.char_name}>{item.charName.toUpperCase()}</Text>
 
                             <View style={styles.char_series_view}>
-                                <Text style={styles.from_text}>From: </Text>
-                                <Text style={styles.char_series_text}>{item.gameSeries}</Text>
+                                <Text style={styles.from_text}>FROM: </Text>
+                                <Text style={styles.char_series_text}>{item.gameSeries.toUpperCase()}</Text>
                             </View>
                         </View>
                     </View>

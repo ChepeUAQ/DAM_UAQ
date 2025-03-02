@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native"
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#000',
         justifyContent: 'center',
         paddingLeft: 5,
         paddingRight: 5
@@ -14,14 +14,15 @@ const styles = StyleSheet.create({
         maxHeight: 80,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#e5e5e5',
+        backgroundColor: '#2a2a2a',
         borderBottomRightRadius: 10,
         borderBottomLeftRadius: 10,
     },
     navbar_text: {
         fontSize: 25,
         fontWeight: 900,
-        marginTop: '5%'
+        marginTop: '5%',
+        color: '#fcfcfc'
     },
     flatlist: {
         marginTop: 15,
@@ -32,13 +33,40 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
+        height: 90,
     },
     char_icon: {
-        width: 50,
-        height: 50
+        width: 60,
+        height: 60,
+        margin: 5
     },
     char_info: {
-        width: '86%'
+        flex: 1,
+        flexDirection: 'row',
+        height: '100%',
+        alignItems: 'center',
+        borderRadius: 5
+    },
+    char_name: {
+        fontSize: 30,
+        fontWeight: 800,
+        marginLeft: 10,
+        color: '#fff'
+    },
+    char_series_view: {
+        flex: 1,
+        paddingRight: 10
+    },
+    from_text: {
+        textAlign: 'right',
+        fontSize: 10,
+        fontWeight: 300
+    },
+    char_series_text: {
+        textAlign: 'right',
+        fontWeight: 600,
+        fontSize: 15,
+        fontStyle: 'italic'
     }
 });
 
