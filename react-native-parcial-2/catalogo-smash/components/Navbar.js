@@ -5,7 +5,7 @@ import styles from "../styles/styles";
 export default function Navbar() {
     return (
         <View style={styles.navbar_view}>
-            <Text style={styles.navbar_text}>DATOS SMASH</Text>
+            <Text style={styles.navbar_text}>Smash Data</Text>
         </View>
     );
 };

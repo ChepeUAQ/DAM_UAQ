@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 10,
     },
     navbar_text: {
-        fontSize: 25,
+        fontSize: 35,
         fontWeight: 900,
-        marginTop: '5%',
+        marginTop: '6%',
         color: '#fcfcfc'
     },
     flatlist: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     char_name: {
         fontSize: 30,
-        fontWeight: 800,
+        fontWeight: 700,
         marginLeft: 10,
         color: '#fff'
     },
